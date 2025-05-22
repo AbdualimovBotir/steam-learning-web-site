@@ -1,0 +1,67 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: steam-learning
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/steam_learning_db
+    username: steam_learning_db
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 44788125218-mtdui57431cv7f9eivc1jdbj0qmke4c9.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri:  http://localhost:8080/oauth2/callback/google
+            scope:
+              - profile
+              - email
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: email
+
+app:
+  auth:
+    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+    tokenExpirationMsec: 864000000  # 10 kun
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:8080/oauth2/callback/google
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
+      - http://localhost:8080/auth/login
+
+jwt:
+  secret: verySecretKeyForJWT123456
+  expiration: 86400000  # 1 kun (millisekundda)
+
+logging:
+  level:
+    org.springframework: INFO
+    com.example: DEBUG
